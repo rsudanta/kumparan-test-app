@@ -11,8 +11,7 @@
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 13,
-        "sourceType": "module"
+        "ecmaVersion": "latest"
     },
     "plugins": [
         "react"

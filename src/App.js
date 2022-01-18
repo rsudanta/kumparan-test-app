@@ -6,21 +6,15 @@
  * @flow strict-local
  */
 
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import {
-  SafeAreaView, StyleSheet,
-  Text,
-  useColorScheme
-} from 'react-native';
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
+import MainApp from './router';
 
 const App = () => {
   return (
-    <SafeAreaView>
-      <Text>Hallo</Text>
-    </SafeAreaView>
+    <NavigationContainer>
+      <MainApp />
+    </NavigationContainer>
   );
 };
 
