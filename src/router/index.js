@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { AlbumDetail, DetailPost, Home, UserProfile } from '../pages';
+import { AlbumDetail, DetailPost, Home, PhotoDetail, UserProfile } from '../pages';
 
 
 const Stack = createNativeStackNavigator();
@@ -28,6 +28,10 @@ const MainApp = () => {
                 headerStyle: {
                     backgroundColor: '#F2F2F2',
                 },
+            }}>
+            </Stack.Screen>
+            <Stack.Screen name="PhotoDetail" component={PhotoDetail} options={{
+                headerShown: false
             }}>
             </Stack.Screen>
         </Stack.Navigator >

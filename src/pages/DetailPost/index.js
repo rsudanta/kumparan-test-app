@@ -1,28 +1,50 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux';
 import { Gap, Post } from '../../components'
+import { getCommentByPostId } from '../../redux/action/comment';
 
-const DetailPost = ({ navigation }) => {
+const DetailPost = ({ navigation, route }) => {
+    const { item, user } = route.params;
+    const { comment } = useSelector(state => state.commentReducer);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCommentByPostId(item.id));
+    }, [])
     return (
-        <View style={styles.page}>
-            <Post
-                name="Alvina Vania"
-                title="Lorem Ipsum"
-                body="Lorem Ipsum"
-                onPressProfile={() => {
-                    navigation.navigate('UserProfile');
-                }}
-            />
-            <Gap height={10} />
-            <Text style={styles.comment}>Comment</Text>
-            <Gap height={10} />
-            <Post
-                name="Alvina Vania"
-                body="Lorem Ipsum"
-                onPressProfile={() => {
-                    navigation.navigate('UserProfile');
-                }} />
-        </View>
+        <ScrollView>
+            <View style={styles.page}>
+                <Post
+                    name={user.name}
+                    title={item.title}
+                    body={item.body}
+                    onPressProfile={() => {
+                        navigation.navigate('UserProfile', { user });
+                    }}
+                />
+                <Gap height={10} />
+                <Text style={styles.comment}>Comment</Text>
+                <Gap height={10} />
+                {
+                    comment.map(itemComment => {
+                        return (
+                            <View key={itemComment.id}>
+                                <Post
+                                    comment
+                                    name={itemComment.name}
+                                    body={itemComment.body}
+                                />
+                                <Gap height={20} />
+
+                            </View>
+                        )
+                    })
+                }
+
+            </View>
+        </ScrollView>
     )
 }
 

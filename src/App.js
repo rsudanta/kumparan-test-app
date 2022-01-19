@@ -8,13 +8,17 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import MainApp from './router';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <MainApp />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainApp />
+      </NavigationContainer>
+    </Provider>
   );
 };
 

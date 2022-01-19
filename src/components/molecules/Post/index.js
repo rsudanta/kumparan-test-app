@@ -1,9 +1,9 @@
 import React from 'react'
 import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../..'
-import { IcUser } from '../../../assets'
+import { IcUser, IcUserDisable } from '../../../assets'
 
-const Post = ({ name, company, body, title, numOfLineBody, onPressProfile }) => {
+const Post = ({ name, company, body, title, numOfLineBody, onPressProfile, comment }) => {
     return (
         <View style={styles.component}>
             <View style={styles.container}>
@@ -11,14 +11,31 @@ const Post = ({ name, company, body, title, numOfLineBody, onPressProfile }) => 
                     <TouchableOpacity activeOpacity={0.7} onPress={onPressProfile}>
                         <View style={styles.profileContainer}>
                             <IcUser />
-                            <Text numberOfLines={1} style={styles.name}>{name}</Text>
+                            <Text numberOfLines={1} style={styles.name('#417CBF')}>{name}</Text>
                         </View>
                     </TouchableOpacity> :
                     <View style={styles.profileContainer}>
-                        <IcUser />
-                        <Text numberOfLines={1} style={styles.name}>{name}</Text>
-                        <View style={styles.dot} />
-                        <Text numberOfLines={1} style={styles.company}>{company}</Text>
+                        {comment ? (
+                            <>
+                                <IcUserDisable />
+                                <Text numberOfLines={1} style={styles.name('#8F8F8F')}>{name}</Text>
+                            </>
+                        )
+                            : (
+                                <>
+                                    <IcUser />
+                                    <Text numberOfLines={1} style={styles.name('#417CBF')}>{name}</Text>
+                                </>
+                            )
+
+                        }
+
+                        {company &&
+                            <>
+                                <View style={styles.dot} />
+                                <Text numberOfLines={1} style={styles.company}>{company}</Text>
+                            </>
+                        }
                     </View>}
                 <Gap height={10} />
                 <View>
@@ -49,12 +66,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    name: {
+    name: color => ({
         fontFamily: 'Poppins-SemiBold',
         fontSize: 13,
-        color: '#417CBF',
-        marginLeft: 8
-    },
+        color: color,
+        marginLeft: 8,
+
+    }),
     dot: {
         height: 4,
         width: 4,
