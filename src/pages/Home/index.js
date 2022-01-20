@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
-import { Gap, HomeHeader, Post } from '../../components'
-import { getPostData, getUserData } from '../../redux/action';
+import { Gap, HomeHeader, Post, PostSkeleton } from '../../components'
+import { getPostData, getUserData, setLoading } from '../../redux/action';
 
 const Home = ({ navigation }) => {
     const { post } = useSelector(state => state.postReducer);
     const { user } = useSelector(state => state.userReducer);
+    const { isLoading } = useSelector(state => state.globalReducer);
 
     const dispatch = useDispatch();
 
@@ -16,6 +17,7 @@ const Home = ({ navigation }) => {
     };
 
     useEffect(() => {
+        dispatch(setLoading(true));
         dispatch(getUserData());
         dispatch(getPostData());
     }, [])
@@ -24,7 +26,16 @@ const Home = ({ navigation }) => {
             <View style={styles.page}>
                 <HomeHeader />
                 <Gap height={20} />
-                {post.length === 0 ? (<Text>Hehe</Text>) :
+                {isLoading || user.length === 0 ? (
+                    <>
+                        <PostSkeleton />
+                        <Gap height={20} />
+                        <PostSkeleton />
+                        <Gap height={20} />
+                        <PostSkeleton />
+                        <Gap height={20} />
+                        <PostSkeleton />
+                    </>) :
                     post.map(item => {
                         return (
                             <View key={item.id}>

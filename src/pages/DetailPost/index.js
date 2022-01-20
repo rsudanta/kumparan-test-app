@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
-import { Gap, Post } from '../../components'
-import { getCommentByPostId } from '../../redux/action/comment';
+import { Gap, Post, PostSkeleton } from '../../components'
+import { getCommentByPostId, setLoading } from '../../redux/action';
 
 const DetailPost = ({ navigation, route }) => {
     const { item, user } = route.params;
     const { comment } = useSelector(state => state.commentReducer);
+    const { isLoading } = useSelector(state => state.globalReducer);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(setLoading(true));
         dispatch(getCommentByPostId(item.id));
     }, [])
     return (
@@ -28,19 +30,20 @@ const DetailPost = ({ navigation, route }) => {
                 <Text style={styles.comment}>Comment</Text>
                 <Gap height={10} />
                 {
-                    comment.map(itemComment => {
-                        return (
-                            <View key={itemComment.id}>
-                                <Post
-                                    comment
-                                    name={itemComment.name}
-                                    body={itemComment.body}
-                                />
-                                <Gap height={20} />
+                    isLoading ? (<PostSkeleton />) :
+                        comment.map(itemComment => {
+                            return (
+                                <View key={itemComment.id}>
+                                    <Post
+                                        comment
+                                        name={itemComment.name}
+                                        body={itemComment.body}
+                                    />
+                                    <Gap height={20} />
 
-                            </View>
-                        )
-                    })
+                                </View>
+                            )
+                        })
                 }
 
             </View>

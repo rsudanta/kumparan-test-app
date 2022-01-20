@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Album, Gap, ProfileHeader } from '../../components'
-import { getAlbumByUserId } from '../../redux/action/album'
-import { getPhotoByAlbumId } from '../../redux/action/photo'
+import { getAlbumByUserId, getPhotoByAlbumId, setLoading } from '../../redux/action'
 
 const UserProfile = ({ navigation, route }) => {
     const { user } = route.params
@@ -29,7 +28,9 @@ const UserProfile = ({ navigation, route }) => {
                 {
                     album.map(albumItem => {
                         return (
-                            <Album title={albumItem.title}
+                            <Album
+                                key={albumItem.id}
+                                title={albumItem.title}
                                 onPress={() => {
                                     dispatch({ type: 'SET_PHOTO', value: [] });
                                     dispatch(getPhotoByAlbumId(albumItem.id));
@@ -55,4 +56,7 @@ const styles = StyleSheet.create({
         color: 'black',
         marginHorizontal: 20
     },
+    placeholder: {
+        height: 40
+    }
 })

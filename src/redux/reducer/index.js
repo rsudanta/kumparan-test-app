@@ -4,6 +4,7 @@ import { userReducer } from './user';
 import { commentReducer } from './comment';
 import { albumReducer } from './album';
 import { photoReducer } from './photo';
+import { globalReducer } from './global';
 
 
 const reducer = combineReducers({
@@ -11,7 +12,8 @@ const reducer = combineReducers({
     userReducer,
     commentReducer,
     albumReducer,
-    photoReducer
+    photoReducer,
+    globalReducer
 });
 
 export default reducer;
